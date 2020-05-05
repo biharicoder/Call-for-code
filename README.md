@@ -1,3 +1,5 @@
 # Call-for-code
 
-Me pagal hun - Divyank
+This repo contains project for the IBM Call for code challenge 2020.
+
+Details coming soon
