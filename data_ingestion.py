@@ -30,8 +30,9 @@ class DataIngestor:
 
 		df_emission_data = pd.read_json(emission_data)
 		def Clean_names(City_name):
-		"""To remove the state name from city column
-		using regex. everything after , in city column is removed"""
+			"""To remove the state name from city column
+			using regex. everything after , in city column is removed
+			"""
 			if re.search(r'\,.*', City_name): 
 				pos = re.search(r'\,.*', City_name).start() 
 				return City_name[:pos] 
