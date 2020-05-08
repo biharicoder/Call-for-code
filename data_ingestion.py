@@ -25,21 +25,25 @@ class DataIngestor:
 		response = requests.get(self.emission_api)
 		# Print the status code of the response.
 		#print(response.status_code)
-
 		emission_data = json.dumps(response.json())
-
-		df_emission_data = pd.read_json(emission_data)
-		def Clean_names(City_name):
-			"""To remove the state name from city column
-			using regex. everything after , in city column is removed
-			"""
-			if re.search(r'\,.*', City_name): 
-				pos = re.search(r'\,.*', City_name).start() 
-				return City_name[:pos] 
-			else:
-				return City_name
-		df_emission_data['city'] = df_emission_data['city'].apply(Clean_names) 
+		df_emission_data = pd.read_json(emission_data) 
 		print(df_emission_data.head())
+		return df_emission_data
+
+	def Clean_names(self):
+		"""To remove the state name from city column
+		Parameters: City_name - to look upon city column
+		Returns: A dataframe where state short form removed from city column
+		"""
+		k=[]
+		df_emission_data=self.get_emission_data()
+		for x in df_emission_data.city:
+			if re.search(r'\,.*', x): 
+				pos = re.search(r'\,.*', x).start()
+				k.append(x[:pos])
+			else: 
+				k.append(x)
+		df_emission_data['city']=k
 		return df_emission_data
 
 
@@ -51,7 +55,7 @@ class DataIngestor:
 		"""
 		full_path = 'data/'+self.filename
 		df_elec = pd.read_excel(full_path, skiprows=3)
-		#print(df_elec.head())
+		print(df_elec.head())
 		return df_elec
 
 	def final_data(self):
@@ -61,9 +65,9 @@ class DataIngestor:
 		Returns:
 		Combined dataframe containing citywide data for emission and power consumption
 		"""
-		df_emission_data = self.get_emission_data()
+		df_emission_data_clean = self.Clean_names()
 		df_elec = self.get_electricity_consumption()
-		df_final = pd.merge(df_emission_data, df_elec, left_on='city', right_on='Census Division\nand State')
+		df_final = pd.merge(df_emission_data_clean, df_elec, left_on='city', right_on='Census Division\nand State')
 		print(df_final)
 		return df_final
 
@@ -71,4 +75,5 @@ if __name__ == '__main__':
 	di = DataIngestor('elec_cost.xlsx', "https://data.cdp.net/resource/wii4-buw5.json?country=United States of America")
 	df1 = di.get_emission_data()
 	df2 = di.get_electricity_consumption()
-	df3=di.final_data()
+	df3=di.Clean_names()
+	df4=di.final_data()
