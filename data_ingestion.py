@@ -39,7 +39,7 @@ class DataIngestor:
 		df_emission_data=self.get_emission_data()
 		for x in df_emission_data.city:
 			if re.search(r'\,.*', x): 
-				pos = re.search(r'\,.*', x).start()
+				pos = re.search(r'\,.*', x).start() 
 				city_column_lst.append(x[:pos])
 			else: 
 				city_column_lst.append(x)
