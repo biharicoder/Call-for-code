@@ -11,6 +11,7 @@ import re
 import numpy as np
 from geopy.geocoders import Nominatim
 
+
 class DataIngestor:
 	global state_list
 	state_list = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -41,6 +42,7 @@ class DataIngestor:
 
 		df_emission_data = pd.read_json(emission_data)
 		return df_emission_data
+
 
 	def get_solar_pv(self , number_of_months_of_year =  12):
 		"""Make a get request to get the solar_pv for the states of United States
@@ -94,6 +96,9 @@ class DataIngestor:
 		print(df[['coordinates', 'location', 'address', 'addr_list', 'state']])
 		return df
 
+
+	@staticmethod
+
 	def get_city_name(column_name):
 		"""Removes the state name from city column
 		Parameters: column_name - name of the column in which cleaning is required
@@ -129,6 +134,7 @@ class DataIngestor:
 		df_final = pd.merge(df, df_solar_pv, left_on='state', right_on='state')
 		print(df_final.head())
 		return df_final
+
 
 if __name__ == '__main__':
 	solar_api = 'https://developer.nrel.gov/api/pvwatts/v6.json?api_key=cYPf9OMDLPB2r05Cy3lc3N5rRFAYoCgzkf2fwetp&system_capacity=4&azimuth=180&tilt=20&array_type=1&module_type=0&losses=14.08&address='
