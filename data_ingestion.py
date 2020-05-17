@@ -118,7 +118,7 @@ class DataIngestor:
 		A dataFrame for the emission data
 		"""
 		full_path = 'data/' + self.filename
-		df_elec = pd.read_excel(full_path, skiprows=3)
+		df_elec = pd.read_csv(full_path)
 		print(df_elec.head())
 		return df_elec
 
@@ -130,7 +130,7 @@ class DataIngestor:
 		df_emission_data = self.get_state_name()
 		df_elec = self.get_electricity_consumption()
 		df_solar_pv = self.get_solar_pv()
-		df = pd.merge(df_emission_data, df_elec, left_on='state', right_on='Census Division\nand State')
+		df = pd.merge(df_emission_data, df_elec, left_on='state', right_on='State')
 		df_final = pd.merge(df, df_solar_pv, left_on='state', right_on='state')
 		print(df_final.head())
 		return df_final
@@ -138,5 +138,5 @@ class DataIngestor:
 
 if __name__ == '__main__':
 	solar_api = 'https://developer.nrel.gov/api/pvwatts/v6.json?api_key=cYPf9OMDLPB2r05Cy3lc3N5rRFAYoCgzkf2fwetp&system_capacity=4&azimuth=180&tilt=20&array_type=1&module_type=0&losses=14.08&address='
-	di = DataIngestor('elec_cost.xlsx', "https://data.cdp.net/resource/wii4-buw5.json?country=United States of America")
+	di = DataIngestor('avg_consumption_and_cost.csv', "https://data.cdp.net/resource/wii4-buw5.json?country=United States of America")
 	df = di.final_data()
