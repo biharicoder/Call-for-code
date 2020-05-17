@@ -136,7 +136,7 @@ class DataIngestor:
 		df_emission_data = self.get_state_name()
 		df_elec = self.get_electricity_consumption()
 		df_solar_pv = self.get_solar_pv()
-		df = pd.merge(df_emission_data, df_elec, left_on='state', right_on='Census Division\nand State')
+		df = pd.merge(df_emission_data, df_elec, left_on='state', right_on='State')
 		df_final = pd.merge(df, df_solar_pv, left_on='state', right_on='state')
 		print(df_final.head())
 		return df_final
