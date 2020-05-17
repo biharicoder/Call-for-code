@@ -12,6 +12,15 @@ import numpy as np
 from geopy.geocoders import Nominatim
 
 class DataIngestor:
+	global state_list
+	state_list = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
+				  "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
+				  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+				  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
+				  "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
+				  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+				  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
+				  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
 
 	def __init__(self, filename, emission_api,solar_api):
 		self.filename = filename
@@ -40,14 +49,7 @@ class DataIngestor:
 		Returns:
 		A dataframe for the emission data
 		"""
-		state_list = ["Alabama","Alaska", "Arizona", "Arkansas", "California", "Colorado",
-					  "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
-					  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-					  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-					  "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
-					  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-					  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-					  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
+
 		number_of_states = len(state_list)
 		a = np.zeros(shape=(number_of_states, (number_of_months_of_year+1)), dtype=object)
 		for i in range(number_of_states):
@@ -73,14 +75,6 @@ class DataIngestor:
 		return df_solar_pv
 
 	def get_state_name(self):
-		state_list = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
-					  "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
-					  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-					  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-					  "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
-					  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-					  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-					  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
 
 		geolocator = Nominatim(user_agent="solar_app")
 
