@@ -51,12 +51,11 @@ class DataIngestor:
 		Returns:
 		A dataframe for the emission data
 		"""
-
 		number_of_states = len(state_list)
 		a = np.zeros(shape=(number_of_states, (number_of_months_of_year+1)), dtype=object)
 		for i in range(number_of_states):
 			solar_pv = []
-			if i == 1 :
+			if i == 1:
 				solar_pv.append(state_list[i])
 				data = ['0']
 				for j in range(number_of_months_of_year):
@@ -72,7 +71,8 @@ class DataIngestor:
 			a[i] = solar_pv
 		df_solar_pv = pd.DataFrame(a)
 		df_solar_pv = df_solar_pv.rename(columns={0: 'state'})
-		#Print the status code of the response.
+
+		# Print the status code of the response.
 		print(response.status_code)
 		return df_solar_pv
 
@@ -98,7 +98,6 @@ class DataIngestor:
 
 
 	@staticmethod
-
 	def get_city_name(column_name):
 		"""Removes the state name from city column
 		Parameters: column_name - name of the column in which cleaning is required
@@ -133,10 +132,11 @@ class DataIngestor:
 		df = pd.merge(df_emission_data, df_elec, left_on='state', right_on='State')
 		df_final = pd.merge(df, df_solar_pv, left_on='state', right_on='state')
 		print(df_final.head())
+		df_final.to_csv('final_data.csv')
 		return df_final
 
 
 if __name__ == '__main__':
 	solar_api = 'https://developer.nrel.gov/api/pvwatts/v6.json?api_key=cYPf9OMDLPB2r05Cy3lc3N5rRFAYoCgzkf2fwetp&system_capacity=4&azimuth=180&tilt=20&array_type=1&module_type=0&losses=14.08&address='
-	di = DataIngestor('avg_consumption_and_cost.csv', "https://data.cdp.net/resource/wii4-buw5.json?country=United States of America")
+	di = DataIngestor('avg_consumption_and_cost_and_emission.csv', "https://data.cdp.net/resource/wii4-buw5.json?country=United States of America", solar_api)
 	df = di.final_data()
